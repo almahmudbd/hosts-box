@@ -1,2 +1,2 @@
 # hosts-box
-collection of host files
+collection of some favorite host files
