@@ -1,0 +1,36 @@
+! 2021-01-31 https://www.facebook.com
+
+www.facebook.com##._3obd
+www.facebook.com##._3ob9
+
+! Desktop Facebook - Posts beginning with "Suggested", "Recommended" or "Post You May Like"
+facebook.com##[role="feed"]>div, [role="feed"]>span:has-text(/^(Suggested|Recommended|Post You May Like)/)
+
+! fb - remove "hidden" elements (rules #1 - #4)
+facebook.com##[role="feed"] span[id] a[href="#"] :matches-css(display: none):remove()
+facebook.com##[role="feed"] span[id] a[href="#"] :matches-css(position: absolute):remove()
+facebook.com##[role="feed"] span[id] a[href="/ads/"] :matches-css(display: none):remove()
+facebook.com##[role="feed"] span[id] a[href="/ads/"] :matches-css(position: absolute):remove()
+
+! fb - look for posts not having a visible number value (Sponsored don't have numbers) - for most languages
+! fb - rules #5 - #6
+facebook.com##[role="feed"] span > span > span > a[href*="/ads/"] > span > span[class] > [style*="display"]:not(:has-text(/(\s|\d|^$)/)):upward([role="feed"] > div)
+facebook.com##[role="feed"] span > span > span > a[href="#"] > span > span[class] > [style*="display"]:not(:has-text(/(\s|\d|^$)/)):upward([role="feed"] > div)
+
+! fb - rules #5 - #6
+facebook.com##[role="feed"] span > span > span > a[href*="/ads/"] > span > span[class] > [style*="display"]:not(:has-text(/(\s|\d|^$)/)):upward([role="feed"] > div):style(border: 8px dotted yellow !important)
+facebook.com##[role="feed"] span > span > span > a[href="#"] > span > span[class] > [style*="display"]:not(:has-text(/(\s|\d|^$)/)):upward([role="feed"] > div):style(border: 8px dotted pink !important)
+
+! fb - look for the word Sponsored (where FB is not obfuscating the text)
+facebook.com##[role="feed"] span > span > span > a[href="#"] > span:has-text(/^Sponsored$/i):upward([role="feed"] > div):style(border: 8px dotted yellow !important)
+facebook.com##[role="feed"] span > span > span > a[href*="/ads/"] > span:has-text(/^Sponsored$/i):upward([role="feed"] > div):style(border: 8px dotted pink !important)
+! ** fb suggestions **
+! -- clear out hidden elements to allow some of the rules below to work - (they're fb's dummy code)
+facebook.com##div[role="feed"] > div div[data-0]:remove()
+! suggested (news feed)
+! - last SPAN needs :not(>*) as it doesn't have any child elements. Without it, it'll cause false-positives.
+facebook.com##div[role="feed"] div > div > div > div > div > div > div > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > div > span:not(>*):upward([role="feed"] > div):style(border:6px dotted silver !important; padding: 0 0.25rem; width:66% !important;)
+! suggested (groups feed)
+facebook.com##div[role="article"][aria-posinset] > div > div > div > div > div > div > div > div:first-of-type:has(i[data-visualcompletion="css-img"][style]):upward(div[role="feed"] > div):style(border:6px dotted DarkSlateGray; padding: 0 0.25rem; width:66% !important;)
+! suggested - top of feed / other column (groups feed)
+facebook.com##a[href*="/groups/discover"] > span > span:upward(21):style(border:6px dotted pink; padding: 0 0.25rem; width:66% !important;)
