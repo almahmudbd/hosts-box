@@ -1,4 +1,5 @@
-! 2021-01-31 https://www.facebook.com
+! 14-09-22 for https://www.facebook.com
+! collected from https://www.reddit.com/r/uBlockOrigin
 
 www.facebook.com##._3obd
 www.facebook.com##._3ob9
